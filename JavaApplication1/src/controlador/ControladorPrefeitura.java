@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Vector;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import java.time.LocalDate; 
+import java.time.format.DateTimeFormatter;
 
 /**
  *
@@ -25,12 +27,17 @@ public class ControladorPrefeitura {
         Prefeitura objeto = new Prefeitura();
         objeto.setEndereco(man.jtfEndereco.getText());
         objeto.setNome(man.jtfNome.getText());
-        objeto.setCodigo(Integer.parseInt(man.jtfCodigo.getText()));
+        objeto.setData_inauguracao(LocalDate.parse(man.jtfDataInauguracao.getText(), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         objeto.setNr_funcionario(Integer.parseInt(man.jtfNr_Funcionario.getText()));
+        
         
         boolean resultado = DaoPrefeitura.inserir(objeto);
         if (resultado) {
             JOptionPane.showMessageDialog(null, "Inserido com sucesso!");
+            if (man.listagem != null) {
+     atualizarTabela(man.listagem.tabela); //atualizar a tabela da listagem
+}
+man.dispose();//fechar a tela da manutenção
         } else {
             JOptionPane.showMessageDialog(null, "Erro!");
         }
@@ -43,10 +50,15 @@ public class ControladorPrefeitura {
         objeto.setNome(man.jtfNome.getText());
         objeto.setEndereco(man.jtfEndereco.getText());
         objeto.setNr_funcionario(Integer.parseInt(man.jtfNr_Funcionario.getText()));
+        objeto.setData_inauguracao(LocalDate.parse(man.jtfDataInauguracao.getText(), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         
         boolean resultado = DaoPrefeitura.alterar(objeto);
         if (resultado) {
             JOptionPane.showMessageDialog(null, "Alterado com sucesso!");
+            if (man.listagem != null) {
+     atualizarTabela(man.listagem.tabela); //atualizar a tabela da listagem
+}
+man.dispose();//fechar a tela da manutenção
         } else {
             JOptionPane.showMessageDialog(null, "Erro!");
         }
@@ -59,6 +71,10 @@ public class ControladorPrefeitura {
         boolean resultado = DaoPrefeitura.excluir(objeto);
         if (resultado) {
             JOptionPane.showMessageDialog(null, "Excluído com sucesso!");
+            if (man.listagem != null) {
+     atualizarTabela(man.listagem.tabela); //atualizar a tabela da listagem
+}
+man.dispose();//fechar a tela da manutenção
         } else {
             JOptionPane.showMessageDialog(null, "Erro!");
         }
@@ -69,6 +85,8 @@ public class ControladorPrefeitura {
         modelo.addColumn("Codigo");
         modelo.addColumn("Nome");
         modelo.addColumn("Descrição");
+        modelo.addColumn("Numero de Funcionarios");
+        modelo.addColumn("Data da Inauguração");
         List<Prefeitura> resultados = DaoPrefeitura.consultar();
         for (Prefeitura objeto : resultados) {
             Vector linha = new Vector();
@@ -78,6 +96,7 @@ public class ControladorPrefeitura {
             linha.add(objeto.getNome());
             linha.add(objeto.getEndereco());
             linha.add(objeto.getNr_funcionario());
+            linha.add(objeto.getData_inauguracao().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
             modelo.addRow(linha); //adicionando a linha na tabela
         }
         tabela.setModel(modelo);
@@ -89,6 +108,7 @@ public class ControladorPrefeitura {
         man.jtfNome.setText(objeto.getNome());
         man.jtfEndereco.setText(objeto.getEndereco());
         man.jtfNr_Funcionario.setText(objeto.getNr_funcionario().toString());
+        man.jtfDataInauguracao.setText(objeto.getData_inauguracao().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         
         man.jtfCodigo.setEnabled(false); //desabilitando o campo código
         man.btnAdicionar.setEnabled(false); //desabilitando o botão adicionar

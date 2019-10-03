@@ -51,9 +51,19 @@ public class ListagemPrefeitura extends javax.swing.JDialog {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tabela.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tabelaMousePressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(tabela);
 
         jButton1.setText("Novo");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -84,6 +94,23 @@ public class ListagemPrefeitura extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+ManutencaoPrefeitura manutencao = new ManutencaoPrefeitura(null, true, this);
+manutencao.setVisible(true);        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void tabelaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMousePressed
+if (evt.getClickCount() == 2) {
+            //obtem a linha selecionada
+            int linhaSelecionada = tabela.getSelectedRow();
+            //obtém a chave primária
+            int pk = Integer.parseInt(tabela.getValueAt(linhaSelecionada, 0).toString()); //pk está na coluna 0
+            //abre a manutenção
+            ManutencaoPrefeitura manutencao = new ManutencaoPrefeitura(null, true, this, pk);
+            manutencao.setVisible(true);
+}        // TODO add your handling code here:
+    }//GEN-LAST:event_tabelaMousePressed
 
     /**
      * @param args the command line arguments
@@ -131,6 +158,6 @@ public class ListagemPrefeitura extends javax.swing.JDialog {
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tabela;
+    public javax.swing.JTable tabela;
     // End of variables declaration//GEN-END:variables
 }

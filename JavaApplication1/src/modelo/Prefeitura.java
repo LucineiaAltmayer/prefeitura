@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package modelo;
-
+import java.time.LocalDate;
 /**
  *
  * @author Administrador
@@ -14,6 +14,15 @@ public class Prefeitura {
     private String nome;
     private Integer nr_funcionario;
     private Integer codigo;
+    private LocalDate data_inauguracao; 
+
+    public LocalDate getData_inauguracao() {
+        return data_inauguracao;
+    }
+
+    public void setData_inauguracao(LocalDate data_inauguracao) {
+        this.data_inauguracao = data_inauguracao;
+    }
 
     @Override
     public String toString() {
